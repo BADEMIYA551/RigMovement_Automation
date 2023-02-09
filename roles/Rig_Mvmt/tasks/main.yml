@@ -24,7 +24,7 @@
   tags:
     - copy_artifacts_db
   when: ('tag_role_DBSRET' in group_names)
-  no_log: true
+  
     
     `    
     
