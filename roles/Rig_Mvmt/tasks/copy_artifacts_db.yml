@@ -16,7 +16,7 @@
     path: "C:\\{{storenum}}_Rig_Mvmt_Work\\all_hqservers.txt"
   register: allhq_creation_status
   
-- name: Write HQ-DBRET Hostname into all_hqservers.txt filr
+- name: Write HQ-DBRET Hostname into all_hqservers.txt file
   win_shell: hostname > "C:\\{{storenum}}_Rig_Mvmt_Work\\all_hqservers.txt"
   when: allhq_creation_status.stat.exists
         
