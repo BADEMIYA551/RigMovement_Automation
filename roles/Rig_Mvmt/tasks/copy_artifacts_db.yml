@@ -1,4 +1,8 @@
 ---
+- name: Get HQ-DBRET Full Hostname
+  win_shell: hostname
+  register: hq_hostname
+  
 - name: Filling the Template and Copying HQ Server and Proxy Server Details to all_hqservers.txt and all_proxyservers.txt
   template:
     src: "Servers_Details/{{item}}.j2"
@@ -9,6 +13,8 @@
     - all_proxyservers
     - all_posservers
   when: creation_status.stat.exists
+  
+  
         
 - name: Filling the Template and Copying Necessary SQL Scripts to SQL-Files folder
   template:
