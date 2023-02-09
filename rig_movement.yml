@@ -10,4 +10,4 @@
     # Including the role to do SQL Changes
     - include_role:
         name: Rig_Mvmt
-    when: ('tag_role_DBSRET' in group_names) or ('tag_role_RAPPRI' in group_names)
+      when: ('tag_role_DBSRET' in group_names) or ('tag_role_RAPPRI' in group_names)
