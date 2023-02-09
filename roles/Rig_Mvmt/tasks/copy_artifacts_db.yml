@@ -20,9 +20,7 @@
   register: allhq_creation_status
   
 - name: Write HQ-DBRET Hostname into all_hqservers.txt filr
-  win_shell: "echo {{item}} > C:\\{{storenum}}_Rig_Mvmt_Work\all_hqservers.txt"
-  with_items:
-    - {{hq_hostname}}
+  win_shell: "echo {{hq_hostname}} > C:\\{{storenum}}_Rig_Mvmt_Work\all_hqservers.txt"
   when: allhq_creation_status.stat.exists
   
         
