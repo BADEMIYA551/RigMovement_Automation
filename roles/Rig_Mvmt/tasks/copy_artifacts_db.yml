@@ -2,9 +2,7 @@
 - name: Get HQ-DBRET Full Hostname
   win_shell: hostname
   register: hq_hostname
-  
-  debug:
-  var: hq_hostname.rc
+
   
 - name: Filling the Template and Copying HQ Server and Proxy Server Details to all_hqservers.txt and all_proxyservers.txt
   template:
