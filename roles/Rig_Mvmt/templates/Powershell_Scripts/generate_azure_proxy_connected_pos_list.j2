@@ -21,7 +21,7 @@ set /p "=%%i : " >> c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_check_connect
 ping -4 -n 1 %%i  | find "TTL" >NUL
 echo %date% %time%
   IF "!ERRORLEVEL!" EQU "0" (
-    sqlcmd -S %%i -E -l 10 -t 60 -i "c:\Azure-HqMigration\SQL-Files\Check_Proxy_Connected_Pos_List.sql" -s , -W > c:\{{storenum}}_Rig_Mvmt_Work\all_posservers.txt
+    sqlcmd -S %%i -E -h -1 -l 10 -t 60 -i "c:\Azure-HqMigration\SQL-Files\Check_Proxy_Connected_Pos_List.sql" -s , -W > c:\{{storenum}}_Rig_Mvmt_Work\all_posservers.txt
   ) ELSE (
     ECHO PROXY OFFLINE >> c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_check_connected_pos_list_%ComputerName%.log <nul
   )
