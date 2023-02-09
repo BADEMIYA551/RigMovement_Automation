@@ -1,8 +1,4 @@
 ---
-- name: Get HQ-DBRET Full Hostname
-  win_shell: hostname
-  register: hq_hostname
-
   
 - name: Filling the Template and Copying HQ Server and Proxy Server Details to all_hqservers.txt and all_proxyservers.txt
   template:
@@ -21,9 +17,8 @@
   register: allhq_creation_status
   
 - name: Write HQ-DBRET Hostname into all_hqservers.txt filr
-  win_shell: "echo {{hq_hostname}} > C:\\{{storenum}}_Rig_Mvmt_Work\\all_hqservers.txt"
+  win_shell: hostname > "C:\\{{storenum}}_Rig_Mvmt_Work\\all_hqservers.txt"
   when: allhq_creation_status.stat.exists
-  
         
 - name: Filling the Template and Copying Necessary SQL Scripts to SQL-Files folder
   template:
