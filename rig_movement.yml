@@ -1,0 +1,13 @@
+---
+- name: RIG Movement between HQ
+  hosts: all
+  gather_facts: false
+  ignore_errors: false
+  no_log: true
+  
+  tasks:
+
+    # Including the role to do SQL Changes
+    - include_role:
+        name: Rig_Mvmt
+    when: ('tag_role_DBSRET' in group_names) or ('tag_role_RAPPRI' in group_names)

@@ -1,0 +1,37 @@
+---
+- name: Filling the Template and Copying HQ Server and Proxy Server Details to all_hqservers.txt and all_proxyservers.txt
+  template:
+    src: "Servers_Details/{{item}}.j2"
+    dest: "C:\\{{storenum}}_Rig_Mvmt_Work\\{{item}}.txt"
+    force: yes
+  with_items:
+    - all_hqservers
+    - all_proxyservers
+    - all_posservers
+  when: creation_status.stat.exists
+        
+- name: Filling the Template and Copying Necessary SQL Scripts to SQL-Files folder
+  template:
+    src: "SQL_Scripts/{{item}}.j2"
+    dest: "C:\\Azure-HqMigration\\SQL-Files\\{{item}}.sql"
+    force: yes
+  with_items:
+    - Check_Proxy
+    - Check_Pos
+    - Update_Proxy
+    - Update_Pos
+    - Check_Proxy_Connected_Pos_List
+  when: sqlfilescreation_status.stat.exists
+        
+- name: Filling the Template and Copying Necessary Powershell Scripts to Scripts folder
+  template:
+    src: "Powershell_Scripts/{{item}}.j2"
+    dest: "C:\\Azure-HqMigration\\Scripts\\{{item}}.bat"
+    force: yes
+  with_items:
+    - check_azure_proxy
+    - check_azure_pos
+    - update_azure_proxy
+    - update_azure_pos
+    - generate_azure_proxy_connected_pos_list
+  when: scriptscreation_status.stat.exists

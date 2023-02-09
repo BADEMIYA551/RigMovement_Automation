@@ -1,0 +1,34 @@
+---
+- name: Check If Servers are reachable
+  win_ping:
+  register: ping_result
+  no_log: true
+  when: ('tag_role_DBSRET' in group_names)
+
+- name: Stop if host is down
+  fail:
+    msg: "{{ inventory_hostname }} IS NOT ALIVE."
+  when: ping_result.unreachable is defined
+ 
+ 
+- name: Necessary Folders Creation in HQ-DBRET Server
+  include: folders_creation_db.yml
+  tags:
+    - folders_creation_db
+  when: ('tag_role_DBSRET' in group_names)
+  no_log: true
+              
+        
+- name: Copy Necessary Artifacts to HQ-DBRET Server
+  include: copy_artifacts_db.yml
+  tags:
+    - copy_artifacts_db
+  when: ('tag_role_DBSRET' in group_names)
+  no_log: true
+    
+    `    
+    
+        
+    
+      
+    

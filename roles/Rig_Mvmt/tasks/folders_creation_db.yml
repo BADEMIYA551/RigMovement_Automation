@@ -1,0 +1,114 @@
+---
+- name: Create a directory {{storenum}}_Rig_Mvmt_Work
+  win_file:
+    path: "C:\\{{storenum}}_Rig_Mvmt_Work"
+    state: directory
+    force: yes
+        
+- name: Checking whether {{storenum}}_Rig_Mvmt_Work folder created or not
+  win_stat:
+    path: "C:\\{{storenum}}_Rig_Mvmt_Work"
+  register: creation_status
+      
+- name: Confirming {{storenum}}_Rig_Mvmt_Work folder creation
+  debug:
+    msg: "{{storenum}}_Rig_Mvmt_Work folder created successfully"
+  when: creation_status.stat.exists
+      
+- name: Clearing contents of {{storenum}}_Rig_Mvmt_Work folder
+  win_shell: Remove-Item -Recurse "C:\\{{storenum}}_Rig_Mvmt_Work\\*"
+  when: creation_status.stat.exists
+
+- debug:
+    msg: "Successfully Cleared the Old files if any in {{storenum}}_Rig_Mvmt_Work"
+        
+- name: Create a directory Logs Inside C:\{{storenum}}_Rig_Mvmt_Work
+  win_file:
+    path: "C:\\{{storenum}}_Rig_Mvmt_Work\\logs"
+    state: directory
+    force: yes
+  when: creation_status.stat.exists
+        
+- name: Checking whether logs folder created or not
+  win_stat:
+    path: "C:\\{{storenum}}_Rig_Mvmt_Work\\logs"
+  register: logscreation_status
+        
+- name: Confirming logs folder creation inside {{storenum}}_Rig_Mvmt_Work folder
+  debug:
+    msg: "logs folder created inside {{storenum}}_Rig_Mvmt_Work folder successfully"
+  when: logscreation_status.stat.exists
+      
+- name: Create a directory Flags Inside C:\{{storenum}}_Rig_Mvmt_Work
+  win_file:
+    path: "C:\\{{storenum}}_Rig_Mvmt_Work\\flags"
+    state: directory
+    force: yes
+  when: creation_status.stat.exists
+        
+- name: Checking whether flags folder created or not
+  win_stat:
+    path: "C:\\{{storenum}}_Rig_Mvmt_Work\\flags"
+  register: flagscreation_status
+      
+- name: Confirming flags folder creation inside {{storenum}}_Rig_Mvmt_Work folder
+  debug:
+    msg: "flags folder created inside {{storenum}}_Rig_Mvmt_Work folder successfully"
+  when: flagscreation_status.stat.exists
+        
+- name: Create a directory in server HQ{{hqenv}}DBRET01 at C drive  to hold Powershell and DB Scripts
+  win_file:
+    path: "C:\\Azure-HqMigration"
+    state: directory
+    force: yes
+        
+- name: Checking whether Azure-HqMigration folder created or not in server HQ{{hqenv}}DBRET01
+  win_stat:
+    path: "C:\\Azure-HqMigration"
+  register: azhqmigcreation_status
+      
+- name: Confirming Azure-HqMigration folder creation
+  debug:
+    msg: "Azure-HqMigration folder created successfully"
+  when: azhqmigcreation_status.stat.exists
+  
+- name: Clearing contents of Azure-HqMigration folder
+  win_shell: Remove-Item -Recurse "C:\\Azure-HqMigration\\*"
+  when: azhqmigcreation_status.stat.exists
+
+- debug:
+    msg: "Successfully Cleared the Old files if any in Azure-HqMigration folder"
+      
+- name: Create a directory Scripts Inside Azure-HqMigration folder
+  win_file:
+    path: "C:\\Azure-HqMigration\\Scripts"
+    state: directory
+    force: yes
+  when: azhqmigcreation_status.stat.exists
+        
+- name: Checking whether Scripts folder created or not
+  win_stat:
+    path: "C:\\Azure-HqMigration\\Scripts"
+  register: scriptscreation_status
+        
+- name: Confirming Scripts folder creation inside Azure-HqMigration folder
+  debug:
+    msg: "Scripts folder created inside Azure-HqMigration folder successfully"
+  when: scriptscreation_status.stat.exists
+      
+- name: Create a directory SQL-Files Inside Azure-HqMigration folder
+  win_file:
+    path: "C:\\Azure-HqMigration\\SQL-Files"
+    state: directory
+    force: yes
+  when: azhqmigcreation_status.stat.exists
+        
+- name: Checking whether SQL-Files folder created or not
+  win_stat:
+    path: "C:\\Azure-HqMigration\\SQL-Files"
+  register: sqlfilescreation_status
+        
+- name: Confirming SQL-Files folder creation inside Azure-HqMigration folder
+  debug:
+    msg: "SQL-Files folder created inside Azure-HqMigration folder successfully"
+  when: sqlfilescreation_status.stat.exists

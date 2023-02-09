@@ -1,0 +1,35 @@
+@echo off
+
+for /f "tokens=2 delims==" %%G in ('wmic os get localdatetime /value') do set datetime=%%G
+set ServerName=hq{{hqenv}}dbret01
+set year=%datetime:~0,4%
+set month=%datetime:~4,2%
+set day=%datetime:~6,2%
+set hhmmss=%datetime:~8,6%
+set Datetime=%day%%month%%year%_%hhmmss%
+setlocal EnableDelayedExpansion
+
+echo.========================================== >> c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_update_%ComputerName%.log
+echo.Script Started... %date% %time%  >> c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_update_%ComputerName%.log
+echo.========================================== >> c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_update_%ComputerName%.log
+
+FOR /F "tokens=1" %%i IN (c:\{{storenum}}_Rig_Mvmt_Work\all_proxyservers.txt) DO ( 
+
+echo %date% %time% - Updating %%i 
+echo.
+set /p "=%%i : " >> c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_update_%ComputerName%.log  <nul 
+ping -4 -n 1 %%i  | find "TTL" >NUL
+echo %date% %time%
+  IF "!ERRORLEVEL!" EQU "0" (
+    sqlcmd -S %%i -E -l 10 -t 60 -i "c:\Azure-HqMigration\SQL-Files\Update_Proxy.sql" -s , -W >> c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_update_%ComputerName%.log
+  ) ELSE (
+    ECHO PROXY OFFLINE >> c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_update_%ComputerName%.log
+  )
+)
+echo. >> c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_update_%ComputerName%.log
+echo. > c:\{{storenum}}_Rig_Mvmt_Work\flags\Proxy-Update-Complete.flg
+echo.========================================== >> c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_update_%ComputerName%.log
+echo.Script Complete... %date% %time%  >> c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_update_%ComputerName%.log
+echo.========================================== >> c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_update_%ComputerName%.log
+:: xcopy /h /s /y c:\{{storenum}}_Rig_Mvmt_Work\logs\proxy_azure_update_*.log \\%ServerName%\C$\Azure-HqMigration\Proxy-Update\
+

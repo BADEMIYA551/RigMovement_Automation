@@ -1,0 +1,10 @@
+SET NOCOUNT ON;
+select host from Retail..RabbitMQServers where ConnectionName='Parent'
+select host from Retail..RabbitMQServers where ConnectionName='ParentColdStart'
+select host from Retail..RabbitMQServers where ConnectionName='ParentDownload'
+select host from Retail..RabbitMQServers where ConnectionName='ParentUpload'
+select DefaultValue from retail.dbo.ConfigurationEntry where entry='ParentQueueServiceAddress'
+select DefaultValue from retail.dbo.ConfigurationEntry where entry='WCFClientIP'
+select DefaultValue from retail.dbo.ConfigurationEntry where entry='HqUrl'
+select DefaultValue from retail.dbo.ConfigurationEntry where entry='ParentUrl'
+select DefaultValue from retail.dbo.ConfigurationEntry where entry='ParentUri'
