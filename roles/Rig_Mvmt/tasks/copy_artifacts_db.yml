@@ -14,6 +14,16 @@
     - all_posservers
   when: creation_status.stat.exists
   
+- name: Checking whether {{storenum}}_Rig_Mvmt_Work\all_hqservers.txt file created or not
+  win_stat:
+    path: "C:\\{{storenum}}_Rig_Mvmt_Work\all_hqservers.txt"
+  register: allhq_creation_status
+  
+- name: Write HQ-DBRET Hostname into all_hqservers.txt filr
+  win_shell: "echo {{item}} > C:\\{{storenum}}_Rig_Mvmt_Work\all_hqservers.txt"
+  with_items:
+    - {{hq_hostname}}
+  when: allhq_creation_status.stat.exists
   
         
 - name: Filling the Template and Copying Necessary SQL Scripts to SQL-Files folder
