@@ -3,6 +3,9 @@
   win_shell: hostname
   register: hq_hostname
   
+  debug:
+  var: hq_hostname.rc
+  
 - name: Filling the Template and Copying HQ Server and Proxy Server Details to all_hqservers.txt and all_proxyservers.txt
   template:
     src: "Servers_Details/{{item}}.j2"
@@ -20,7 +23,7 @@
   register: allhq_creation_status
   
 - name: Write HQ-DBRET Hostname into all_hqservers.txt filr
-  win_shell: echo hq_hostname.stdout_lines > "C:\\{{storenum}}_Rig_Mvmt_Work\\all_hqservers.txt"
+  win_shell: echo hq_hostname.rc > "C:\\{{storenum}}_Rig_Mvmt_Work\\all_hqservers.txt"
   when: allhq_creation_status.stat.exists
   
         
